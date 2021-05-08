@@ -27,7 +27,7 @@ WORKDIR /home/lwolski/
 RUN curl -s "https://get.sdkman.io" | bash
 RUN chmod a+x "/home/lwolski/.sdkman/bin/sdkman-init.sh"
 RUN bash -c "source /home/lwolski/.sdkman/bin/sdkman-init.sh && sdk install java 8.0.272.hs-adpt"
-RUN bash -c "source /home/lwolski/.sdkman/bin/sdkman-init.sh && sdk install sbt 1.4.8"
+RUN bash -c "source /home/lwolski/.sdkman/bin/sdkman-init.sh && sdk install sbt 1.5.1"
 RUN bash -c "source /home/lwolski/.sdkman/bin/sdkman-init.sh && sdk install scala 2.12.13"
 
 RUN git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
