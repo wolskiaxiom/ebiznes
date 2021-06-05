@@ -1,8 +1,8 @@
-name := "untitled9"
+name := "backendscala"
 
 version := "1.0"
 
-lazy val `untitled9` = (project in file(".")).enablePlugins(PlayScala)
+lazy val `backendscala` = (project in file(".")).enablePlugins(PlayScala)
 
 resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
 
