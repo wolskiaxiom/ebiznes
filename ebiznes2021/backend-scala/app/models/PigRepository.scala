@@ -38,8 +38,8 @@ class PigRepository  @Inject() (dbConfigProvider: DatabaseConfigProvider)(implic
 
   def delete(id: Long): Future[Unit] = db.run(pig.filter(_.id === id).delete).map(_ => ())
 
-  def update(id: Long, new_animal: Pig): Future[Unit] = {
-    val animalToUpdate: Pig = new_animal.copy(id)
+  def update(id: Long, newAnimal: Pig): Future[Unit] = {
+    val animalToUpdate: Pig = newAnimal.copy(id)
     db.run(pig.filter(_.id === id).update(animalToUpdate)).map(_ => ())
   }
 

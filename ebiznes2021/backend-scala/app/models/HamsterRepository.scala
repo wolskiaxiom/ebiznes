@@ -38,8 +38,8 @@ class HamsterRepository  @Inject() (dbConfigProvider: DatabaseConfigProvider)(im
 
   def delete(id: Long): Future[Unit] = db.run(hamster.filter(_.id === id).delete).map(_ => ())
 
-  def update(id: Long, new_animal: Hamster): Future[Unit] = {
-    val animalToUpdate: Hamster = new_animal.copy(id)
+  def update(id: Long, newAnimal: Hamster): Future[Unit] = {
+    val animalToUpdate: Hamster = newAnimal.copy(id)
     db.run(hamster.filter(_.id === id).update(animalToUpdate)).map(_ => ())
   }
 

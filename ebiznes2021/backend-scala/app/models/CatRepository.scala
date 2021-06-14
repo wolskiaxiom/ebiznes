@@ -38,8 +38,8 @@ class CatRepository  @Inject() (dbConfigProvider: DatabaseConfigProvider)(implic
 
   def delete(id: Long): Future[Unit] = db.run(cat.filter(_.id === id).delete).map(_ => ())
 
-  def update(id: Long, new_animal: Cat): Future[Unit] = {
-    val animalToUpdate: Cat = new_animal.copy(id)
+  def update(id: Long, newAnimal: Cat): Future[Unit] = {
+    val animalToUpdate: Cat = newAnimal.copy(id)
     db.run(cat.filter(_.id === id).update(animalToUpdate)).map(_ => ())
   }
 

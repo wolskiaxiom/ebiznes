@@ -38,8 +38,8 @@ class ParrotRepository  @Inject() (dbConfigProvider: DatabaseConfigProvider)(imp
 
   def delete(id: Long): Future[Unit] = db.run(parrot.filter(_.id === id).delete).map(_ => ())
 
-  def update(id: Long, new_animal: Parrot): Future[Unit] = {
-    val animalToUpdate: Parrot = new_animal.copy(id)
+  def update(id: Long, newAnimal: Parrot): Future[Unit] = {
+    val animalToUpdate: Parrot = newAnimal.copy(id)
     db.run(parrot.filter(_.id === id).update(animalToUpdate)).map(_ => ())
   }
 

@@ -38,8 +38,8 @@ class SnakeRepository  @Inject() (dbConfigProvider: DatabaseConfigProvider)(impl
 
   def delete(id: Long): Future[Unit] = db.run(snake.filter(_.id === id).delete).map(_ => ())
 
-  def update(id: Long, new_animal: Snake): Future[Unit] = {
-    val animalToUpdate: Snake = new_animal.copy(id)
+  def update(id: Long, newAnimal: Snake): Future[Unit] = {
+    val animalToUpdate: Snake = newAnimal.copy(id)
     db.run(snake.filter(_.id === id).update(animalToUpdate)).map(_ => ())
   }
 

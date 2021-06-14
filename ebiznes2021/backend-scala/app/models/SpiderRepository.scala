@@ -38,8 +38,8 @@ class SpiderRepository  @Inject() (dbConfigProvider: DatabaseConfigProvider)(imp
 
   def delete(id: Long): Future[Unit] = db.run(spider.filter(_.id === id).delete).map(_ => ())
 
-  def update(id: Long, new_animal: Spider): Future[Unit] = {
-    val animalToUpdate: Spider = new_animal.copy(id)
+  def update(id: Long, newAnimal: Spider): Future[Unit] = {
+    val animalToUpdate: Spider = newAnimal.copy(id)
     db.run(spider.filter(_.id === id).update(animalToUpdate)).map(_ => ())
   }
 
