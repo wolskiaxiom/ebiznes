@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 
 function useCart() {
     const [cart, setCart] = useState([]);
@@ -26,16 +26,9 @@ function useCart() {
         setCart(hardCopy);
     };
 
-    const cartItems = cart.map((el) => (
-        <div key={el.id}>
-            {`${el.name}: $${el.price}`}
-            <input type="submit" value="remove" onClick={() => removeFromCart(el)} />
-        </div>
-    ));
-
     return {
         cartTotal,
-        cartItems,
+        cart,
         addToCart,
         removeFromCart
     }

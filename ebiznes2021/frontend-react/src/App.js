@@ -1,5 +1,5 @@
 import React from "react";
-import Shop from "./shop/Shop";
+import Shop from "./components/Shop";
 
 function App() {
   return (
