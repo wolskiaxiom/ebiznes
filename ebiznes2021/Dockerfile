@@ -35,5 +35,16 @@ RUN git clone https://github.com/kprzystalski/vim && cp vim/.vimrc /home/lwolski
 
 RUN mkdir projekt
 WORKDIR /home/lwolski/projekt/
+
+EXPOSE 3000
+COPY --chown=lwolski backend-scala /home/lwolski/projekt/backend-scala
+COPY --chown=lwolski frontend-react /home/lwolski/projekt/frontend-react
+WORKDIR /home/lwolski/projekt/frontend-react
+RUN bash -c "ls -al"
+RUN bash -c "npm install"
+RUN bash -c "npm start &"
+WORKDIR /home/lwolski/projekt/backend-scala
+RUN bash -c "source /home/lwolski/.sdkman/bin/sdkman-init.sh && sbt run "
+
 #RUN bash -c "source /home/lwolski/.sdkman/bin/sdkman-init.sh && sbt new playframework/play-scala-seed.g8"
 
