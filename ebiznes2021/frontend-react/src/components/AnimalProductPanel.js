@@ -11,7 +11,7 @@ const AnimalProductPanel = ({ animal, addItem }) => {
             {loading && <p>Loading...</p>}
             {error && <p>Something went wrong...</p>}
             {animalList && animalList.length > 0 &&
-                <ul className="store__items">
+                <ul>
                     {animalList.map(animal => (
                         <Animal item={animal} addItem={addItem}/>
                     ))}
