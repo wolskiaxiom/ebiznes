@@ -13,6 +13,6 @@ services:
     ports:
     - 12346:3000
     volumes:
-    - .:/home/lwolski/projekt/sklep-react/
+    - ./frontend-react:/home/lwolski/projekt/sklep-react/
     working_dir: /home/lwolski/projekt/sklep-react/
-    command: bash -c "npm start"
+    command: bash -c "npm install && npm start"

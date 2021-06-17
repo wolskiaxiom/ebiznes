@@ -13,10 +13,12 @@ RUN apt-get update &&\
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt-get install -y nodejs
 RUN npm install -g npm@latest
+RUN apt-get install -y net-tools
 
 EXPOSE 8080
 EXPOSE 5000
 EXPOSE 9000
+EXPOSE 3000
 
 
 RUN useradd -ms /bin/bash lwolski
@@ -36,15 +38,13 @@ RUN git clone https://github.com/kprzystalski/vim && cp vim/.vimrc /home/lwolski
 RUN mkdir projekt
 WORKDIR /home/lwolski/projekt/
 
-EXPOSE 3000
 COPY --chown=lwolski backend-scala /home/lwolski/projekt/backend-scala
 COPY --chown=lwolski frontend-react /home/lwolski/projekt/frontend-react
 WORKDIR /home/lwolski/projekt/frontend-react
-RUN bash -c "ls -al"
 RUN bash -c "npm install"
-RUN bash -c "npm start &"
-WORKDIR /home/lwolski/projekt/backend-scala
-RUN bash -c "source /home/lwolski/.sdkman/bin/sdkman-init.sh && sbt run "
-
+WORKDIR /home/lwolski/projekt
+COPY --chown=lwolski start-processes.sh /home/lwolski/projekt/start-processes.sh
+RUN chmod a+x "/home/lwolski/projekt/start-processes.sh"
+CMD ["./start-processes.sh"]
 #RUN bash -c "source /home/lwolski/.sdkman/bin/sdkman-init.sh && sbt new playframework/play-scala-seed.g8"
 
