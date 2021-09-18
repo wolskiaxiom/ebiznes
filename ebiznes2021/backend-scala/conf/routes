@@ -50,3 +50,6 @@ GET           /spiders                    controllers.SpidersController.getSpide
 POST          /addspider                  controllers.SpidersController.addSpider
 POST          /updatespider/:id           controllers.SpidersController.updateSpider(id: Long)
 DELETE        /spiders/:id                controllers.SpidersController.delete(id: Long)
+
+GET           /order                      controllers.OrderController.getOrders
+POST          /order                      controllers.OrderController.addOrder
