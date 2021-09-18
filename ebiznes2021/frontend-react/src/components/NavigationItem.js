@@ -1,11 +1,12 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 import CustomButton from "./CustomButton";
 
 const NavigationItem = ({ animal, chooseAnimal}) => {
 
     return (
             <div>
-                <CustomButton label={animal.categoryName} onClick={chooseAnimal}/>
+                <Link to={animal.url}>{animal.categoryName}</Link>
             </div>
     )
 }

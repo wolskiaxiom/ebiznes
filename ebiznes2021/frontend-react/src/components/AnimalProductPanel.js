@@ -4,7 +4,7 @@ import Animal from './Animal';
 
 
 const AnimalProductPanel = ({ animal, addItem }) => {
-    const { response: animalList, loading, error } = useFetch(`http://localhost:9000${animal.url}`, []);
+    const { response: animalList, loading, error } = useFetch(`http://localhost:12345${animal.url}`, []);
     return (
         <div>
             <h1>{animal.categoryName}</h1>
@@ -13,7 +13,7 @@ const AnimalProductPanel = ({ animal, addItem }) => {
             {animalList && animalList.length > 0 &&
                 <ul>
                     {animalList.map(animal => (
-                        <Animal item={animal} addItem={addItem}/>
+                        <Animal item={animal} addItem={addItem} key={animal.price}/>
                     ))}
                 </ul>
             }
@@ -23,7 +23,7 @@ const AnimalProductPanel = ({ animal, addItem }) => {
                 </div>
             }
         </div>
-    );
-};
+    )
+}
 
 export default AnimalProductPanel;

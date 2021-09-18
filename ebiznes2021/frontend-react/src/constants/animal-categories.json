@@ -1,0 +1,9 @@
+[
+  { "url": "/cats", "animalType": "CAT", "categoryName": "Koty"},
+  { "url": "/dogs", "animalType": "DOG", "categoryName": "Psy"},
+  { "url": "/snakes", "animalType": "SNAKE", "categoryName": "Węże"},
+  { "url": "/parrots", "animalType": "PARROT", "categoryName": "Papugi"},
+  { "url": "/pigs", "animalType": "PIG", "categoryName": "Świnki morskie"},
+  { "url": "/hamsters", "animalType": "HAMSTER", "categoryName": "Chomiki"},
+  { "url": "/spiders", "animalType": "SPIDER", "categoryName": "Pająki"}
+]
