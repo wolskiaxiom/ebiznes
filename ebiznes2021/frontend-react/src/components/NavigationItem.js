@@ -5,7 +5,7 @@ import CustomButton from "./CustomButton";
 const NavigationItem = ({ animal, chooseAnimal}) => {
 
     return (
-            <div>
+            <div style={{padding: "20px", display:"inline-block", background:"green"}}>
                 <Link to={animal.url}>{animal.categoryName}</Link>
             </div>
     )

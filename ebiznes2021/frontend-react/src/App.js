@@ -1,6 +1,7 @@
 import React from "react";
 import Shop from "./components/Shop";
 import Header from "./components/Header";
+import Home from "./components/Home";
 import {BrowserRouter, Route} from "react-router-dom";
 import Cart from "./components/Cart";
 import animalCategories from "./constants/animal-categories.json"
@@ -12,7 +13,7 @@ function App() {
             <Header/>
             <div>
                 <Route path={"/"} exact>
-                    <span>HOME</span>
+                    <Home/>
                 </Route>
                 <Route path={"/cart"} exact>
                     <Cart/>

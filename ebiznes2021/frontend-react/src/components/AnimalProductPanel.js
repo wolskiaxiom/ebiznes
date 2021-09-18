@@ -3,7 +3,7 @@ import useFetch from '../hooks/useFetch';
 import Animal from './Animal';
 
 
-const AnimalProductPanel = ({ animal, addItem }) => {
+const AnimalProductPanel = ({ animal }) => {
     const { response: animalList, loading, error } = useFetch(`http://localhost:12345${animal.url}`, []);
     return (
         <div>
@@ -13,7 +13,7 @@ const AnimalProductPanel = ({ animal, addItem }) => {
             {animalList && animalList.length > 0 &&
                 <ul>
                     {animalList.map(animal => (
-                        <Animal item={animal} addItem={addItem} key={animal.price}/>
+                        <Animal item={animal} key={animal.price}/>
                     ))}
                 </ul>
             }

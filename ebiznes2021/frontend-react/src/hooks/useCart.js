@@ -17,12 +17,14 @@ function useCart() {
     };
 
     const addToCart = (el) => {
-        setCart([...cart, el]);
+        if (cart.filter(item => item.id === el.id && item.animalType === el.animalType) < 1) {
+            setCart([...cart, el]);
+        }
     };
 
     const removeFromCart = (el) => {
         let hardCopy = [...cart];
-        hardCopy = hardCopy.filter((cartItem) => cartItem.id !== el.id);
+        hardCopy = hardCopy.filter((cartItem) => cartItem.id !== el.id && cartItem.animalType !== el.animalType);
         setCart(hardCopy);
     };
 

@@ -1,8 +1,13 @@
 import React from 'react';
 import CustomButton from './CustomButton';
+import {CartState} from "../context/Context";
 
-const Animal = ({ item, addItem }) => {
-    const addItemToBasket = () => addItem(item)
+const Animal = ({ item }) => {
+    const {
+        state: { cart },
+        dispatch,
+    } = CartState()
+
     return (
         <li className="store__item">
             <div>
@@ -11,7 +16,17 @@ const Animal = ({ item, addItem }) => {
             <div>Typ: {item.animalType}</div>
             <div>Wiek: {item.age}</div>
             <div>Cena: {item.price} PLN</div>
-            <CustomButton onClick={addItemToBasket} label="Przygarnij zwierzaka" />
+            {cart.filter(i => i.id === item.id && i.animalType === item.animalType)<1 ?
+                <CustomButton onClick={() => {
+                        dispatch({
+                            type: "ADD_TO_CART",
+                            payload: item
+                        })
+                    }
+                } label="Przygarnij zwierzaka" disabled={false}/>
+                :
+                <CustomButton label="Już w koszyku..." disabled={true}/>
+            }
         </li>
     );
 }
