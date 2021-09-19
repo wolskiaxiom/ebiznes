@@ -53,3 +53,11 @@ DELETE        /spiders/:id                controllers.SpidersController.delete(i
 
 GET           /order                      controllers.OrderController.getOrders
 POST          /order                      controllers.OrderController.addOrder
+
+GET         /                                controllers.IndexController.index
+
+POST        /signUp                          controllers.SignUpController.signUp
+
+POST        /signIn                          controllers.SignInController.signIn
+
+POST        /password/change                 controllers.ChangePasswordController.changePassword
