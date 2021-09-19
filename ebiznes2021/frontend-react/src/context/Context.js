@@ -6,7 +6,8 @@ const Cart = createContext()
 const Context = ({children}) => {
 
     const [state, dispatch] = useReducer(cartReducer, {
-        cart: []
+        cart: [],
+        xauth: ""
     });
 
     return (
