@@ -6,7 +6,6 @@ import modelsauth.User
 import modelsauth.tables.UserTable
 import play.api.db.slick.DatabaseConfigProvider
 import slick.jdbc.JdbcProfile
-//import slick.jdbc.SQLiteProfile.api._
 
 import scala.concurrent.{ ExecutionContext, Future }
 

@@ -45,11 +45,8 @@ class OrderController @Inject()
                               comments: String)
   implicit val createOrderFormat = Json.format[CreateOrderModel]
 
-  def addOrder = SecuredAction(WithProvider[AuthType](CredentialsProvider.ID)).async {
+  def addOrder = securedAction(WithProvider[AuthType](CredentialsProvider.ID)).async {
     implicit request: SecuredRequest[JWTEnvironment, AnyContent] =>
-      println(request)
-      println(request.body)
-      println(request.body.asJson)
       createOrderForm.bindFromRequest().fold(
         errorForm => {
           Future.successful(

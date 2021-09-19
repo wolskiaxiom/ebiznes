@@ -26,7 +26,7 @@ class SignUpController @Inject() (
    *
    * @return The result to display.
    */
-  def signUp = UnsecuredAction.async { implicit request: Request[AnyContent] =>
+  def signUp = unsecuredAction.async { implicit request: Request[AnyContent] =>
     implicit val lang: Lang = supportedLangs.availables.head
     request.body.asJson.flatMap(_.asOpt[User]) match {
       case Some(newUser) if newUser.password.isDefined =>

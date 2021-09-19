@@ -25,7 +25,7 @@ class ChangePasswordController @Inject() (
   /**
    * Changes the password.
    */
-  def changePassword = SecuredAction(WithProvider[AuthType](CredentialsProvider.ID)).async {
+  def changePassword = securedAction(WithProvider[AuthType](CredentialsProvider.ID)).async {
     request: SecuredRequest[JWTEnvironment, AnyContent] =>
       implicit val lang: Lang = supportedLangs.availables.head
       request.body.asJson.flatMap(_.asOpt[ChangePasswordModel]) match {

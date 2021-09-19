@@ -46,12 +46,4 @@ class OrderRepository  @Inject() (dbConfigProvider: DatabaseConfigProvider)(impl
   def list(): Future[Seq[Order]] = db.run {
     order.result
   }
-//
-//  def delete(id: Long): Future[Unit] = db.run(dog.filter(_.id === id).delete).map(_ => ())
-//
-//  def update(id: Long, newAnimal: Dog): Future[Unit] = {
-//    val animalToUpdate: Dog = newAnimal.copy(id)
-//    db.run(dog.filter(_.id === id).update(animalToUpdate)).map(_ => ())
-//  }
-
 }

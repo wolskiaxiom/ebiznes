@@ -21,8 +21,8 @@ import utils.auth.JWTEnvironment
 abstract class SilhouetteController(override protected val controllerComponents: SilhouetteControllerComponents)
   extends MessagesAbstractController(controllerComponents) with SilhouetteComponents with I18nSupport with Logging {
 
-  def SecuredAction: SecuredActionBuilder[EnvType, AnyContent] = controllerComponents.silhouette.SecuredAction
-  def UnsecuredAction: UnsecuredActionBuilder[EnvType, AnyContent] = controllerComponents.silhouette.UnsecuredAction
+  def securedAction: SecuredActionBuilder[EnvType, AnyContent] = controllerComponents.silhouette.SecuredAction
+  def unsecuredAction: UnsecuredActionBuilder[EnvType, AnyContent] = controllerComponents.silhouette.UnsecuredAction
 
   def userService: UserService = controllerComponents.userService
   def authInfoRepository: AuthInfoRepository = controllerComponents.authInfoRepository

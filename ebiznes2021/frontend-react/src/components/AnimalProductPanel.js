@@ -12,8 +12,8 @@ const AnimalProductPanel = ({ animal }) => {
             {error && <p>Something went wrong...</p>}
             {animalList && animalList.length > 0 &&
                 <ul>
-                    {animalList.map(animal => (
-                        <Animal item={animal} key={animal.price}/>
+                    {animalList.map(a => (
+                        <Animal item={a} key={a.price}/>
                     ))}
                 </ul>
             }

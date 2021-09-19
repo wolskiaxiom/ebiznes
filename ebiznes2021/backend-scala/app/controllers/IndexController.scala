@@ -13,7 +13,7 @@ class IndexController @Inject() (
   components: SilhouetteControllerComponents
 )(implicit ex: ExecutionContext) extends SilhouetteController(components) {
 
-  def index = UnsecuredAction { implicit request: Request[AnyContent] =>
+  def index = unsecuredAction { implicit request: Request[AnyContent] =>
     Ok(JsString("Hello"))
   }
 }
