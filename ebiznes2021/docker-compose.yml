@@ -3,7 +3,7 @@ services:
   backend:
     build: .
     ports:
-    - 12345:9000
+    - "9000:9000"
     volumes:
     - ./backend-scala:/home/lwolski/projekt/sklep-play/
     working_dir: /home/lwolski/projekt/sklep-play/
@@ -11,7 +11,7 @@ services:
   frontend:
     build: .
     ports:
-    - 12346:3000
+    - 3000:3000
     volumes:
     - ./frontend-react:/home/lwolski/projekt/sklep-react/
     working_dir: /home/lwolski/projekt/sklep-react/

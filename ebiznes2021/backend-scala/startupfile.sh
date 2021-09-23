@@ -1,0 +1,1 @@
+source /home/lwolski/.sdkman/bin/sdkman-init.sh && sbt run -D
