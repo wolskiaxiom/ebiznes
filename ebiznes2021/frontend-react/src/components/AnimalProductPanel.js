@@ -4,7 +4,7 @@ import Animal from './Animal';
 
 
 const AnimalProductPanel = ({ animal }) => {
-    const { response: animalList, loading, error } = useFetch(`http://localhost:12345${animal.url}`, []);
+    const { response: animalList, loading, error } = useFetch(`https://ebiznes-backend.azurewebsites.net${animal.url}`, []);
     return (
         <div>
             <h1>{animal.categoryName}</h1>

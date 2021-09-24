@@ -102,7 +102,7 @@ const Cart = () => {
                                 </Form.Group>
                                 <Button variant="primary" type="submit" onClick={(event => {
                                     const signIn = async () => {
-                                        await axios.post('http://localhost:12345/signIn', {
+                                        await axios.post('https://ebiznes-backend.azurewebsites.net/signIn', {
                                             email: email,
                                             password: !password ? "" : password
                                         }).then((response) => {
@@ -193,7 +193,7 @@ const Cart = () => {
                                         disabled={cart.length < 1}
                                         onClick={() => {
                                             const postOrders = async () => {
-                                                await axios.post('http://localhost:12345/order', {
+                                                await axios.post('https://ebiznes-backend.azurewebsites.net/order', {
                                                     customer_email: email.toString(),
                                                     customer_nick: nick.toString(),
                                                     customer_address1: address1.toString(),

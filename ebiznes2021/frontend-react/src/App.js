@@ -7,7 +7,6 @@ import Cart from "./components/Cart";
 import animalCategories from "./constants/animal-categories.json"
 
 function App() {
-    console.log(animalCategories.filter(c => c.animalType === "CAT"))
     return (
         <BrowserRouter>
             <Header/>
