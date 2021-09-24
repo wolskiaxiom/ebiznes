@@ -1,6 +1,6 @@
 name := "backendscala"
 
-version := "1.0.0"
+version := "latest"
 
 resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
 resolvers += "Akka Snapshot Repository" at "https://repo.akka.io/snapshots/"
@@ -28,5 +28,13 @@ libraryDependencies ++= Seq(
   filters
 )
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
+lazy val root = (project in file(".")).enablePlugins(PlayScala).disablePlugins(PlayFilters)
+enablePlugins(DockerPlugin)
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )
+
+import com.typesafe.sbt.packager.docker.DockerChmodType
+import com.typesafe.sbt.packager.docker.DockerPermissionStrategy
+dockerChmodType := DockerChmodType.UserGroupWriteExecute
+dockerPermissionStrategy := DockerPermissionStrategy.CopyChown
+dockerExposedPorts := Seq(9000)
+packageName in Docker := "wolskiaxiom/" +  packageName.value
