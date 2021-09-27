@@ -15,7 +15,7 @@ const Header = () => {
                 </Navbar.Brand>
                 <div style={{padding: "20px", display: "inline-block"}}/>
                 {animalCategories.map(a => (
-                    <Navbar.Brand>
+                    <Navbar.Brand key={a.animalType}>
                         <NavigationItem animal={a} key={a.animalType}/>
                     </Navbar.Brand>
                 ))}
