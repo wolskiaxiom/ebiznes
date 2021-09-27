@@ -15,6 +15,6 @@
 4. Go to `ebiznes2021/backend-scala/app/controllers`
 5. Go to `ebiznes2021/frontend-react/src/components`
 6. Go to `ebiznes2021/frontend-react/src/hooks`
-7. TODO 
-8. TODO
+7. Go to: https://ebiznes-app.azurewebsites.net/
+8. Go to: https://ebiznes-app.azurewebsites.net/cart
 9. Go to: https://sonarcloud.io/dashboard?id=wolskiaxiom_ebiznes
