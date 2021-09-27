@@ -109,8 +109,10 @@ const Cart = () => {
                                             if (response.status === 200) {
                                                 setPassword("")
                                                 setXauthV(response.headers['x-auth'])
+                                                alert("Zalogowano pomyślnie")
                                             }
                                         }).catch((error) => {
+                                            alert("Coś poszło nie tak, spróbuj ponownie.")
                                             console.log(error)
                                         });
                                     };
@@ -220,8 +222,10 @@ const Cart = () => {
                                                             type: "CLEAN_CART",
                                                             payload: {},
                                                         })
+                                                        alert("Zamówienie zostało złożone!")
                                                     }
                                                 }).catch(error => {
+                                                    alert("Coś poszło nie tak z zamówieniem")
                                                     console.log(error)
                                                 });
                                             };
