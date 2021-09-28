@@ -1,8 +1,8 @@
-package modulesauth
+package modules
 
 import com.google.inject.AbstractModule
-import modelsauth.daos.{ UserDAO, UserDAOImpl }
-import modelsauth.services.{ UserService, UserServiceImpl }
+import models.daos.{AuthTokenDAO, AuthTokenDAOImpl}
+import models.services.{AuthTokenService, AuthTokenServiceImpl}
 import net.codingwell.scalaguice.ScalaModule
 
 /**
@@ -14,7 +14,7 @@ class BaseModule extends AbstractModule with ScalaModule {
    * Configures the module.
    */
   override def configure(): Unit = {
-    bind[UserDAO].to[UserDAOImpl]
-    bind[UserService].to[UserServiceImpl]
+    bind[AuthTokenDAO].to[AuthTokenDAOImpl]
+    bind[AuthTokenService].to[AuthTokenServiceImpl]
   }
 }

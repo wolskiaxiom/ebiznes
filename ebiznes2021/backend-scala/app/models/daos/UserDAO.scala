@@ -1,12 +1,14 @@
-package modelsauth.daos
+package models.daos
+
+import java.util.UUID
 
 import com.mohiva.play.silhouette.api.LoginInfo
-import modelsauth.User
+import models.User
 
 import scala.concurrent.Future
 
 /**
- * Gives access to the user storage.
+ * Give access to the user object.
  */
 trait UserDAO {
 
@@ -19,18 +21,18 @@ trait UserDAO {
   def find(loginInfo: LoginInfo): Future[Option[User]]
 
   /**
+   * Finds a user by its user ID.
+   *
+   * @param userID The ID of the user to find.
+   * @return The found user or None if no user for the given ID could be found.
+   */
+  def find(userID: UUID): Future[Option[User]]
+
+  /**
    * Saves a user.
    *
    * @param user The user to save.
    * @return The saved user.
    */
   def save(user: User): Future[User]
-
-  /**
-   * Updates a user.
-   *
-   * @param user The user to update.
-   * @return The saved user.
-   */
-  def update(user: User): Future[User]
 }

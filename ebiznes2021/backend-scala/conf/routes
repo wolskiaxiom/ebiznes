@@ -3,18 +3,11 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# An example controller showing how to use dependency injection
-GET           /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code
 GET           /message                    controllers.AsyncController.message
 
 # Map static resources from the /public folder to the /assets URL path
 GET           /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
-
-GET           /users                      controllers.UsersController.getUsers
-POST          /adduser                    controllers.UsersController.addUser
-POST          /updateuser/:id             controllers.UsersController.updateUser(id: Long)
-DELETE        /users/:id                  controllers.UsersController.delete(id: Long)
 
 GET           /dogs                       controllers.DogsController.getDogs
 POST          /adddog                     controllers.DogsController.addDog
@@ -51,13 +44,7 @@ POST          /addspider                  controllers.SpidersController.addSpide
 POST          /updatespider/:id           controllers.SpidersController.updateSpider(id: Long)
 DELETE        /spiders/:id                controllers.SpidersController.delete(id: Long)
 
-GET           /order                      controllers.OrderController.getOrders
-POST          /order                      controllers.OrderController.addOrder
+GET         /                                controllers.ApplicationController.index
+GET         /signOut                         controllers.ApplicationController.signOut
+GET         /authenticate/:provider          controllers.SocialAuthController.authenticate(provider)
 
-GET         /                                controllers.IndexController.index
-
-POST        /signUp                          controllers.SignUpController.signUp
-
-POST        /signIn                          controllers.SignInController.signIn
-
-POST        /password/change                 controllers.ChangePasswordController.changePassword
