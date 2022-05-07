@@ -4,6 +4,7 @@ import {Button, Col, Container, Form, ListGroup, Row} from "react-bootstrap";
 import {AiFillDelete} from "react-icons/all";
 import "./styles.css";
 import axios from "axios";
+import backendUrl from "../constants/constants";
 
 const Cart = () => {
     const {state, dispatch} = CartState()
@@ -102,7 +103,7 @@ const Cart = () => {
                                 </Form.Group>
                                 <Button variant="primary" type="submit" onClick={(event => {
                                     const signIn = async () => {
-                                        await axios.post('https://ebiznes-backend.azurewebsites.net/signIn', {
+                                        await axios.post(backendUrl + '/signIn', {
                                             email: email,
                                             password: !password ? "" : password
                                         }).then((response) => {
@@ -195,7 +196,7 @@ const Cart = () => {
                                         disabled={cart.length < 1}
                                         onClick={() => {
                                             const postOrders = async () => {
-                                                await axios.post('https://ebiznes-backend.azurewebsites.net/order', {
+                                                await axios.post(backendUrl + '/order', {
                                                     customer_email: email.toString(),
                                                     customer_nick: nick.toString(),
                                                     customer_address1: address1.toString(),

@@ -13,6 +13,7 @@ RUN apt-get update &&\
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt-get install -y nodejs
 RUN npm install -g npm@latest
+RUN npm install -g serve@latest
 RUN apt-get install -y net-tools
 
 EXPOSE 3000
@@ -23,13 +24,12 @@ RUN adduser lwolski sudo
 USER lwolski
 WORKDIR /home/lwolski/
 
-RUN git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-RUN git clone https://github.com/kprzystalski/vim && cp vim/.vimrc /home/lwolski/
-
 RUN mkdir projekt
 WORKDIR /home/lwolski/projekt/
 
 COPY --chown=lwolski ./ /home/lwolski/projekt/frontend-react/
 WORKDIR /home/lwolski/projekt/frontend-react
 RUN bash -c "npm install"
-CMD ["npm","start"]
+RUN bash -c "npm run build --scripts-prepend-node-path=auto"
+RUN bash -c "rm -R node_modules/" -y
+CMD ["serve", "-s", "build"]

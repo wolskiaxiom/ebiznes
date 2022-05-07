@@ -1,10 +1,11 @@
 import React from 'react';
 import useFetch from '../hooks/useFetch';
 import Animal from './Animal';
+import backendUrl from '../constants/constants';
 
 
 const AnimalProductPanel = ({ animal }) => {
-    const { response: animalList, loading, error } = useFetch(`https://ebiznes-backend.azurewebsites.net${animal.url}`, []);
+    const { response: animalList, loading, error } = useFetch(backendUrl + animal.url, []);
     return (
         <div>
             <h1>{animal.categoryName}</h1>

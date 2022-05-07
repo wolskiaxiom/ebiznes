@@ -3,11 +3,12 @@ package controllers
 import com.mohiva.play.silhouette.api._
 import com.mohiva.play.silhouette.api.exceptions.ProviderException
 import com.mohiva.play.silhouette.impl.providers._
-import javax.inject.Inject
-import play.api.mvc.{ AnyContent, Request }
-import utils.route.Calls
 
-import scala.concurrent.{ ExecutionContext, Future }
+import javax.inject.Inject
+import play.api.mvc.{AnyContent, Request}
+import utils.route.{Calls, Constants}
+
+import scala.concurrent.{ExecutionContext, Future}
 
 /**
  * The social auth controller.
@@ -33,7 +34,7 @@ class SocialAuthController @Inject() (
             authInfo <- authInfoRepository.save(profile.loginInfo, authInfo)
             authenticator <- authenticatorService.create(profile.loginInfo)
             value <- authenticatorService.init(authenticator)
-            result <- authenticatorService.embed(value, Redirect("http://localhost:3000/"))
+            result <- authenticatorService.embed(value, Redirect(Constants.frontendUrl))
           } yield {
             eventBus.publish(LoginEvent(user, request))
             result
