@@ -10,22 +10,14 @@ const Cart = () => {
     const {state, dispatch} = CartState()
     const cart = state.cart;
 
-    const [email, setEmail] = useState("")
     const [nick, setNick] = useState("")
     const [address1, setAddress1] = useState("")
-    const [address2, setAddress2] = useState("")
     const [city, setCity] = useState("")
     const [zipcode, setZipcode] = useState("")
 
     const [total, setTotal] = useState()
-    const [xauthV, setXauthV] = useState(state.xauth)
-    const [password, setPassword] = useState()
-    useEffect(() => {
-        setXauthV(state.xauth)
-    }, [state.xauth])
 
     useEffect(() => {
-        console.log(cart)
         setTotal(cart.reduce((acc, curr) => acc + Number(curr.price), 0))
     }, [cart])
     return (
@@ -80,166 +72,98 @@ const Cart = () => {
                 <span style={{fontWeight: 700, fontSize: 20}}>Szacowana cena: {total} PLN</span>
                 <div style={{height: 100}}/>
                 <div style={{textAlign: "center"}}>
-                    {!xauthV ? (
-                        <>
-                            <span>Zaloguj sie!</span>
-                            <Form onSubmit={(event => {
-                                event.preventDefault()
-                            })} id={"loginForm"}>
-                                <Form.Group className="mb-3" controlId="formBasicEmail">
-                                    <Form.Label>Email: </Form.Label>
-                                    <Form.Control type="email" placeholder="Enter email"
-                                                  onChange={(event) => {
-                                                      setEmail(event.target.value)
-                                                  }}/>
-                                </Form.Group>
+                    <span style={{fontWeight: 60, fontSize: 17}}>Wprowadź dane do zapytania</span>
+                    <Form onSubmit={(event => {
+                        event.preventDefault()
+                    })}>
+                        <Row className="mb-3">
+                            <Form.Group as={Col} controlId="nickname">
+                                <Form.Label>Imię: </Form.Label>
+                                <Form.Control type="text" placeholder="Imię i nazwisko"
+                                              onChange={(event) => {
+                                                  setNick(event.target.value);
+                                              }}
+                                />
+                            </Form.Group>
+                        </Row>
 
-                                <Form.Group className="mb-3" controlId="formBasicPassword">
-                                    <Form.Label>Hasło: </Form.Label>
-                                    <Form.Control type="password" placeholder="Password"
-                                                  onChange={(event) => {
-                                                      setPassword(event.target.value)
-                                                  }}/>
-                                </Form.Group>
-                                <Button variant="primary" type="submit" onClick={(event => {
-                                    const signIn = async () => {
-                                        await axios.post(backendUrl + '/signIn', {
-                                            email: email,
-                                            password: !password ? "" : password
-                                        }).then((response) => {
+                        <Form.Group className="mb-3" controlId="formGridAddress1">
+                            <Form.Label>Adres: </Form.Label>
+                            <Form.Control value={address1}
+                                          onChange={(event) => {
+                                              setAddress1(event.target.value);
+                                          }}
+                            />
+                        </Form.Group>
+
+                        <Row className="mb-3">
+                            <Form.Group as={Col} controlId="formGridCity">
+                                <Form.Label>Miasto: </Form.Label>
+                                <Form.Control
+                                    onChange={(event) => {
+                                        setCity(event.target.value);
+                                    }}
+                                />
+                            </Form.Group>
+
+                            <Form.Group as={Col} controlId="formGridZip">
+                                <Form.Label>Kod pocztowy: </Form.Label>
+                                <Form.Control
+                                    onChange={(event) => {
+                                        setZipcode(event.target.value);
+                                    }}
+                                />
+                            </Form.Group>
+                        </Row>
+
+                        <Row className={"mb-2"}>
+                            <Button
+                                className="d-grid gap-2"
+                                type={"submit"}
+                                size={"lg"}
+                                disabled={cart.length < 1}
+                                onClick={() => {
+                                    const postOrders = async () => {
+                                        await axios.post(backendUrl + '/order', {
+                                            customer_nick: nick.toString(),
+                                            customer_address1: address1.toString(),
+                                            customer_city: city.toString(),
+                                            customer_zipcode: zipcode.toString(),
+                                            total_price: total,
+                                            order_items: [...Array(cart.length).keys()]
+                                                .map((i) => {
+                                                    return {
+                                                        item_id: cart[i].id,
+                                                        item_num: cart[i].qty
+                                                    }
+                                                }),
+                                        }, {
+                                            withCredentials: true
+                                        }).then(response => {
                                             if (response.status === 200) {
-                                                setPassword("")
-                                                setXauthV(response.headers['x-auth'])
-                                                alert("Zalogowano pomyślnie")
+                                                dispatch({
+                                                    type: "CLEAN_CART",
+                                                    payload: {},
+                                                })
+                                                alert("Zamówienie zostało złożone!")
                                             }
-                                        }).catch((error) => {
-                                            alert("Coś poszło nie tak, spróbuj ponownie.")
-                                            console.log(error)
+                                        }).catch(error => {
+                                            if (error.status === 400) {
+                                                alert("Coś poszło nie tak z zamówieniem... Upewnij się, że uzupełniłeś wszystkie pola w formularzu.")
+                                            } else if (error.status === 401) {
+                                                alert("Coś poszło nie tak z zamówieniem... Upewnij się że jesteś zalogowany.")
+                                            } else {
+                                                alert("Coś poszło nie tak z zamówieniem... Skontaktuj sie z administratorem.")
+                                            }
                                         });
                                     };
-
-                                    signIn();
-                                })}>
-                                    Zaloguj
-                                </Button>
-                            </Form>
-                        </>
-                    ) : (
-                        <>
-                            <span style={{fontWeight: 60, fontSize: 17}}>Wprowadź dane do zapytania</span>
-                            <Form onSubmit={(event => {
-                                event.preventDefault()
-                            })}>
-                                <Row className="mb-3">
-                                    <Form.Group as={Col} controlId="formGridEmail">
-                                        <Form.Label>Email: </Form.Label>
-                                        <Form.Control size={"lg"} type="email" placeholder="Email" value={email}
-                                                      onChange={(event) => {
-                                                          setEmail(event.target.value)
-                                                      }}
-                                        />
-                                    </Form.Group>
-
-                                    <Form.Group as={Col} controlId="nickname">
-                                        <Form.Label>Imię: </Form.Label>
-                                        <Form.Control type="text" placeholder="Imię"
-                                                      onChange={(event) => {
-                                                          setNick(event.target.value);
-                                                      }}
-                                        />
-                                    </Form.Group>
-                                </Row>
-
-                                <Form.Group className="mb-3" controlId="formGridAddress1">
-                                    <Form.Label>Adres: </Form.Label>
-                                    <Form.Control placeholder="Ulica i numer" value={address1}
-                                                  onChange={(event) => {
-                                                      setAddress1(event.target.value);
-                                                  }}
-                                    />
-                                </Form.Group>
-
-                                <Form.Group className="mb-3" controlId="formGridAddress2">
-                                    <Form.Label>Adres: </Form.Label>
-                                    <Form.Control placeholder="Dodatkowe informacje"
-                                                  onChange={(event) => {
-                                                      setAddress2(event.target.value);
-                                                  }}
-                                    />
-                                </Form.Group>
-
-                                <Row className="mb-3">
-                                    <Form.Group as={Col} controlId="formGridCity">
-                                        <Form.Label>Miasto: </Form.Label>
-                                        <Form.Control
-                                            onChange={(event) => {
-                                                setCity(event.target.value);
-                                            }}
-                                        />
-                                    </Form.Group>
-
-                                    <Form.Group as={Col} controlId="formGridZip">
-                                        <Form.Label>Kod pocztowy: </Form.Label>
-                                        <Form.Control
-                                            onChange={(event) => {
-                                                setZipcode(event.target.value);
-                                            }}
-                                        />
-                                    </Form.Group>
-                                </Row>
-
-                                <Row className={"mb-2"}>
-                                    <Button
-                                        className="d-grid gap-2"
-                                        type={"submit"}
-                                        size={"lg"}
-                                        disabled={cart.length < 1}
-                                        onClick={() => {
-                                            const postOrders = async () => {
-                                                await axios.post(backendUrl + '/order', {
-                                                    customer_email: email.toString(),
-                                                    customer_nick: nick.toString(),
-                                                    customer_address1: address1.toString(),
-                                                    customer_address2: address2.toString(),
-                                                    customer_city: city.toString(),
-                                                    customer_zipcode: zipcode.toString(),
-                                                    total_price: total,
-                                                    comments: 'commented',
-                                                    order_items: [...Array(cart.length).keys()]
-                                                        .map((i) => {
-                                                            return {
-                                                                item_id: cart[i].id,
-                                                                item_num: cart[i].qty
-                                                            }
-                                                        }),
-
-                                                }, {
-                                                    headers: {
-                                                        "X-Auth": xauthV,
-                                                    }
-                                                }).then(response => {
-                                                    if (response.status === 200) {
-                                                        dispatch({
-                                                            type: "CLEAN_CART",
-                                                            payload: {},
-                                                        })
-                                                        alert("Zamówienie zostało złożone!")
-                                                    }
-                                                }).catch(error => {
-                                                    alert("Coś poszło nie tak z zamówieniem")
-                                                    console.log(error)
-                                                });
-                                            };
-
-                                            postOrders();
-                                        }}
-                                    >
-                                        Wyślij zapytanie o dostępność
-                                    </Button>
-                                </Row>
-                            </Form>
-                        </>
-                    )}
+                                    postOrders();
+                                }}
+                            >
+                                Wyślij zapytanie o dostępność
+                            </Button>
+                        </Row>
+                    </Form>
                 </div>
             </div>
         </div>
