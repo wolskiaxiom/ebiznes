@@ -48,3 +48,5 @@ GET         /                                controllers.ApplicationController.i
 GET         /signOut                         controllers.ApplicationController.signOut
 GET         /authenticate/:provider          controllers.SocialAuthController.authenticate(provider)
 
+GET           /order                      controllers.OrderController.getOrders
+POST          /order                      controllers.OrderController.addOrder
