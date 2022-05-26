@@ -5,7 +5,7 @@ import com.mohiva.play.silhouette.api.exceptions.ProviderException
 import com.mohiva.play.silhouette.impl.providers._
 
 import javax.inject.Inject
-import play.api.mvc.{AnyContent, Request}
+import play.api.mvc.{AnyContent, Cookie, Request}
 import utils.route.{Calls, Constants}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -34,7 +34,11 @@ class SocialAuthController @Inject() (
             authInfo <- authInfoRepository.save(profile.loginInfo, authInfo)
             authenticator <- authenticatorService.create(profile.loginInfo)
             value <- authenticatorService.init(authenticator)
-            result <- authenticatorService.embed(value, Redirect(Constants.frontendUrl))
+            result <- authenticatorService.embed(value, Redirect(Calls.authenticationSucceeded)
+              .withCookies(
+                new Cookie(name = "email", value = user.email.get, httpOnly = false)
+              )
+            )
           } yield {
             eventBus.publish(LoginEvent(user, request))
             result

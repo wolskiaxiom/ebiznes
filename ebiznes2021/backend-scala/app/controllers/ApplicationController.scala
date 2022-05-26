@@ -2,12 +2,12 @@ package controllers
 
 import com.mohiva.play.silhouette.api.LogoutEvent
 import com.mohiva.play.silhouette.api.actions._
-import com.mohiva.play.silhouette.impl.providers.GoogleTotpInfo
+
 import javax.inject.Inject
 import play.api.mvc._
 import utils.route.Calls
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 /**
  * The basic application controller.
@@ -21,10 +21,8 @@ class ApplicationController @Inject() (
    *
    * @return The result to display.
    */
-  def index = SecuredAction.async { implicit request: SecuredRequest[EnvType, AnyContent] =>
-    authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
-      Redirect(Calls.home)
-    }
+  def index: Action[AnyContent] = Action.async { implicit request =>
+    Future.successful(Ok)
   }
 
   /**
@@ -34,6 +32,7 @@ class ApplicationController @Inject() (
    */
   def signOut = SecuredAction.async { implicit request: SecuredRequest[EnvType, AnyContent] =>
     val result = Redirect(Calls.home)
+      .discardingCookies(DiscardingCookie("email"))
     eventBus.publish(LogoutEvent(request.identity, request))
     authenticatorService.discard(request.authenticator, result)
   }
