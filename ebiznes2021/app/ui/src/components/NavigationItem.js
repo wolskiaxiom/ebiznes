@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
-const NavigationItem = ({ animal, chooseAnimal}) => {
+const NavigationItem = ({ animal }) => {
 
     return (
             <div>

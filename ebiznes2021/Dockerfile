@@ -27,7 +27,7 @@ RUN curl -s "https://get.sdkman.io" | bash
 RUN chmod a+x "/home/lwolski/.sdkman/bin/sdkman-init.sh"
 RUN bash -c "source /home/lwolski/.sdkman/bin/sdkman-init.sh && sdk install java 8.0.302-open"
 
-COPY --chown=lwolski:root ./backend-scala/target/universal/stage /opt/stage
+COPY --chown=lwolski:root app/target/universal/stage /opt/stage
 EXPOSE 9000
 RUN chmod a+x "/opt/stage/bin/ebiznes-scala-and-play"
 CMD ["/opt/stage/bin/ebiznes-scala-and-play", "-java-home", "/home/lwolski/.sdkman/candidates/java/current"]
