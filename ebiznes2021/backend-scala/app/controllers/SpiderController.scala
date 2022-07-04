@@ -41,7 +41,7 @@ class SpidersController @Inject()(spidersRepository: SpiderRepository, cc: Messa
       },
       spider => {
         spidersRepository.create(spider.name, spider.nickname, spider.age, spider.price).map { _ =>
-          Redirect(routes.SpidersController.getSpiders()).flashing("success" -> "product.created")
+          Redirect(routes.SpidersController.getSpiders).flashing("success" -> "product.created")
         }
       }
     )
@@ -62,7 +62,7 @@ class SpidersController @Inject()(spidersRepository: SpiderRepository, cc: Messa
       },
       spider => {
         spidersRepository.update(spider.id, Spider(spider.id, spider.name, spider.nickname, spider.age, spider.price)).map { _ =>
-          Redirect(routes.SpidersController.getSpiders()).flashing("success" -> "spider updated")
+          Redirect(routes.SpidersController.getSpiders).flashing("success" -> "spider updated")
         }
       }
     )

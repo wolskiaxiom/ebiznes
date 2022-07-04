@@ -9,26 +9,44 @@ RUN apt-get update &&\
 	apt-get upgrade -y &&\
     apt-get install -y  software-properties-common
 
-EXPOSE 9000
+# JS
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get install -y nodejs
+RUN npm install -g npm@latest
+RUN npm install -g serve@latest
+RUN apt-get install -y net-tools
 
-RUN useradd -ms /bin/bash lwolski
-RUN adduser lwolski sudo
+USER root
+RUN id -u lwolski 1>/dev/null 2>&1 || (( getent group 0 1>/dev/null 2>&1 || ( type groupadd 1>/dev/null 2>&1 && groupadd -g 0 root || addgroup -g 0 -S root )) && ( type useradd 1>/dev/null 2>&1 && useradd --system --create-home --uid 1001 --gid 0 lwolski || adduser -S -u 1001 -G root lwolski ))
+USER 1001:0
+
 USER lwolski
 WORKDIR /home/lwolski/
 RUN curl -s "https://get.sdkman.io" | bash
-
 RUN chmod a+x "/home/lwolski/.sdkman/bin/sdkman-init.sh"
-RUN bash -c "source /home/lwolski/.sdkman/bin/sdkman-init.sh && sdk install java 8.0.272.hs-adpt"
-RUN bash -c "source /home/lwolski/.sdkman/bin/sdkman-init.sh && sdk install sbt 1.5.1"
-RUN bash -c "source /home/lwolski/.sdkman/bin/sdkman-init.sh && sdk install scala 2.12.13"
-
-RUN git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-RUN git clone https://github.com/kprzystalski/vim && cp vim/.vimrc /home/lwolski/
+RUN bash -c "source /home/lwolski/.sdkman/bin/sdkman-init.sh && sdk install java 8.0.302-open"
+RUN bash -c "source /home/lwolski/.sdkman/bin/sdkman-init.sh && sdk install sbt 1.6.2"
+RUN bash -c "source /home/lwolski/.sdkman/bin/sdkman-init.sh && sdk install scala 2.12.15"
 
 RUN mkdir projekt
 WORKDIR /home/lwolski/projekt/
 
-COPY --chown=lwolski ./ /home/lwolski/projekt/backend-scala/
-WORKDIR /home/lwolski/projekt/backend-scala
-RUN bash -c "source /home/lwolski/.sdkman/bin/sdkman-init.sh"
-ENV PATH="home/lwolski/projekt/backend-scala/:${PATH}"
+COPY --chown=lwolski:root ./ /home/lwolski/projekt/
+WORKDIR /home/lwolski/projekt/ui
+RUN bash -c "npm install"
+RUN bash -c "npm run build --scripts-prepend-node-path=auto"
+
+USER root
+RUN chown lwolski:root /opt
+USER lwolski
+#RUN mkdir /opt/stage
+#CMD ["serve", "-s", "build"]
+
+WORKDIR /home/lwolski/projekt
+RUN bash -c "/home/lwolski/.sdkman/candidates/sbt/1.6.2/bin/sbt -java-home /home/lwolski/.sdkman/candidates/java/current stage"
+RUN bash -c "cp -R /home/lwolski/projekt/target/universal/stage /opt/stage"
+RUN bash -c "rm -R /home/lwolski/projekt/" -y
+#
+EXPOSE 9000
+RUN chmod a+x "/opt/stage/bin/ebiznes-scala-and-play"
+CMD ["/opt/stage/bin/ebiznes-scala-and-play", "-java-home", "/home/lwolski/.sdkman/candidates/java/current"]

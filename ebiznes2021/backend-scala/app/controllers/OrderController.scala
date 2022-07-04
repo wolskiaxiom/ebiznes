@@ -1,6 +1,6 @@
 package controllers
 
-import models.{Order, OrderRepository}
+import models.{Order, OrderRepository, OrderDetailsRepository}
 
 import javax.inject.{Inject, Singleton}
 import play.api.data.Form
@@ -12,10 +12,13 @@ import play.api.libs.json.Json
 import play.api.mvc._
 
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.Success
+import scala.util.Failure
 
 @Singleton
 class OrderController @Inject()
 (ordersRepository: OrderRepository,
+ orderDetailsRepository: OrderDetailsRepository,
  scc: SilhouetteControllerComponents
 )(implicit ec: ExecutionContext) extends SilhouetteController(scc) {
 
@@ -26,6 +29,12 @@ class OrderController @Inject()
       "customer_city" -> nonEmptyText,
       "customer_zipcode" -> nonEmptyText,
       "total_price" -> number,
+      "order_items" -> seq(
+        mapping(
+          "item_id" -> number,
+          "item_cat" -> nonEmptyText
+        )(CreateOrderDetailsForm.apply)(CreateOrderDetailsForm.unapply)
+      )
     )(CreateOrderForm.apply)(CreateOrderForm.unapply)
   }
   case class CreateOrderModel(customerNick: String,
@@ -43,9 +52,22 @@ class OrderController @Inject()
         )
       },
       order => {
-        ordersRepository.create(request.identity.email.get, order.customerNick, order.customerAddress1, order.customerCity, order.customerZipcode, order.totalPrice).map { _ =>
+        val orderId = ordersRepository.create(request.identity.email.get, order.customerNick, order.customerAddress1, order.customerCity, order.customerZipcode, order.totalPrice)
+        orderId.onComplete({
+          case Success(a) => {
+            for (createOrderDetailsForm <- order.orderItems) {
+              orderDetailsRepository.create(a.id, createOrderDetailsForm.itemId, createOrderDetailsForm.itemCat)
+            }
+          }
+          case Failure(exception) => {
+            Future.successful(
+              BadRequest
+            )
+          }
+        })
+        Future.successful(
           Ok
-        }
+        )
       }
     )
   }
@@ -56,6 +78,13 @@ class OrderController @Inject()
     }
   }
 
+  def getDetails: Action[AnyContent] = Action.async { implicit request =>
+    orderDetailsRepository.list().map {
+      orderDetails => Ok(Json.toJson(orderDetails))
+    }
+  }
+
 }
 
-case class CreateOrderForm(customerNick: String, customerAddress1: String, customerCity: String, customerZipcode: String, totalPrice: Int)
+case class CreateOrderForm(customerNick: String, customerAddress1: String, customerCity: String, customerZipcode: String, totalPrice: Int, orderItems: Seq[CreateOrderDetailsForm])
+case class CreateOrderDetailsForm(itemId: Int, itemCat: String)

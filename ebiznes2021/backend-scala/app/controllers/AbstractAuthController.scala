@@ -27,7 +27,7 @@ abstract class AbstractAuthController(
    * @return The result to display.
    */
   protected def authenticateUser(user: User, rememberMe: Boolean)(implicit request: RequestHeader): Future[AuthenticatorResult] = {
-    val result = Redirect(Calls.authenticationSucceeded)
+    val result = Redirect(Calls.home)
       .withCookies(new Cookie(name = "email", value = user.email.get, httpOnly = false))
 
     authenticatorService.create(user.loginInfo).map {

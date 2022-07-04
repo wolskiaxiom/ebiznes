@@ -34,7 +34,7 @@ class SocialAuthController @Inject() (
             authInfo <- authInfoRepository.save(profile.loginInfo, authInfo)
             authenticator <- authenticatorService.create(profile.loginInfo)
             value <- authenticatorService.init(authenticator)
-            result <- authenticatorService.embed(value, Redirect(Calls.authenticationSucceeded)
+            result <- authenticatorService.embed(value, Redirect(Calls.home)
               .withCookies(
                 new Cookie(name = "email", value = user.email.get, httpOnly = false)
               )

@@ -41,7 +41,7 @@ class DogsController @Inject()(dogsRepository: DogRepository, cc: MessagesContro
       },
       dog => {
         dogsRepository.create(dog.name, dog.nickname, dog.age, dog.price).map { _ =>
-          Redirect(routes.DogsController.getDogs()).flashing("success" -> "product.created")
+          Redirect(routes.DogsController.getDogs).flashing("success" -> "product.created")
         }
       }
     )
@@ -62,7 +62,7 @@ class DogsController @Inject()(dogsRepository: DogRepository, cc: MessagesContro
       },
       dog => {
         dogsRepository.update(dog.id, Dog(dog.id, dog.name, dog.nickname, dog.age, dog.price)).map { _ =>
-          Redirect(routes.DogsController.getDogs()).flashing("success" -> "dog updated")
+          Redirect(routes.DogsController.getDogs).flashing("success" -> "dog updated")
         }
       }
     )

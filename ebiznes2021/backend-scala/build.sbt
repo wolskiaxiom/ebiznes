@@ -1,4 +1,4 @@
-name := "backendscala"
+name := "ebiznes-scala-and-play"
 
 version := "latest"
 
@@ -6,6 +6,7 @@ resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
 resolvers += "Akka Snapshot Repository" at "https://repo.akka.io/snapshots/"
 resolvers += Resolver.jcenterRepo
 resolvers += "Sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
+resolvers += Resolver.sonatypeRepo("snapshots")
 
 val playSilhouetteVersion = "6.1.1"
 val slickVersion = "3.3.3"
@@ -32,16 +33,21 @@ libraryDependencies ++= Seq(
   filters
 )
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala).disablePlugins(PlayFilters)
-enablePlugins(DockerPlugin)
-unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )
-
-//PlayKeys.devSettings := Seq("play.server.http.port" -> "8080")
-routesImport += "utils.route.Binders._"
-
-import com.typesafe.sbt.packager.docker.DockerChmodType
-import com.typesafe.sbt.packager.docker.DockerPermissionStrategy
-dockerChmodType := DockerChmodType.UserGroupWriteExecute
-dockerPermissionStrategy := DockerPermissionStrategy.CopyChown
-dockerExposedPorts := Seq(9000)
-packageName in Docker := "wolskiaxiom/" +  packageName.value
+lazy val root = (project in file("."))
+  .enablePlugins(PlayScala)
+  .settings(
+    watchSources ++= (baseDirectory.value / "public/ui" ** "*").get
+  )
+//  .disablePlugins(PlayFilters)
+//enablePlugins(DockerPlugin)
+////unmanagedResourceDirectories in Test +=  baseDirectory ( _ /"target/web/public/test" )
+//
+////PlayKeys.devSettings := Seq("play.server.http.port" -> "8080")
+//routesImport += "utils.route.Binders._"
+//
+//import com.typesafe.sbt.packager.docker.DockerChmodType
+//import com.typesafe.sbt.packager.docker.DockerPermissionStrategy
+//dockerChmodType := DockerChmodType.UserGroupWriteExecute
+//dockerPermissionStrategy := DockerPermissionStrategy.CopyChown
+//dockerExposedPorts := Seq(9000)
+//packageName in Docker := "wolskiaxiom/" +  packageName.value

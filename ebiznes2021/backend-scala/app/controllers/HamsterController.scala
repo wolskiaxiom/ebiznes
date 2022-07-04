@@ -41,7 +41,7 @@ class HamstersController @Inject()(hamstersRepository: HamsterRepository, cc: Me
       },
       hamster => {
         hamstersRepository.create(hamster.name, hamster.nickname, hamster.age, hamster.price).map { _ =>
-          Redirect(routes.HamstersController.getHamsters()).flashing("success" -> "product.created")
+          Redirect(routes.HamstersController.getHamsters).flashing("success" -> "product.created")
         }
       }
     )
@@ -62,7 +62,7 @@ class HamstersController @Inject()(hamstersRepository: HamsterRepository, cc: Me
       },
       hamster => {
         hamstersRepository.update(hamster.id, Hamster(hamster.id, hamster.name, hamster.nickname, hamster.age, hamster.price)).map { _ =>
-          Redirect(routes.HamstersController.getHamsters()).flashing("success" -> "hamster updated")
+          Redirect(routes.HamstersController.getHamsters).flashing("success" -> "hamster updated")
         }
       }
     )
