@@ -5,6 +5,7 @@ import com.mohiva.play.silhouette.api.actions.SecuredErrorHandler
 import play.api.i18n.{ I18nSupport, MessagesApi }
 import play.api.mvc.RequestHeader
 import play.api.mvc.Results._
+import utils.route.Calls
 
 import scala.concurrent.Future
 
@@ -36,6 +37,6 @@ class CustomSecuredErrorHandler @Inject() (val messagesApi: MessagesApi) extends
    * @return The result to send to the client.
    */
   override def onNotAuthorized(implicit request: RequestHeader) = {
-    Future.successful(Forbidden)
+    Future.successful(Unauthorized)
   }
 }

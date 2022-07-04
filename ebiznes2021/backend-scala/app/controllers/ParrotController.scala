@@ -41,7 +41,7 @@ class ParrotsController @Inject()(parrotsRepository: ParrotRepository, cc: Messa
       },
       parrot => {
         parrotsRepository.create(parrot.name, parrot.nickname, parrot.age, parrot.price).map { _ =>
-          Redirect(routes.ParrotsController.getParrots()).flashing("success" -> "product.created")
+          Redirect(routes.ParrotsController.getParrots).flashing("success" -> "product.created")
         }
       }
     )
@@ -62,7 +62,7 @@ class ParrotsController @Inject()(parrotsRepository: ParrotRepository, cc: Messa
       },
       parrot => {
         parrotsRepository.update(parrot.id, Parrot(parrot.id, parrot.name, parrot.nickname, parrot.age, parrot.price)).map { _ =>
-          Redirect(routes.ParrotsController.getParrots()).flashing("success" -> "parrot updated")
+          Redirect(routes.ParrotsController.getParrots).flashing("success" -> "parrot updated")
         }
       }
     )

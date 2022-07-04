@@ -41,7 +41,7 @@ class SnakesController @Inject()(snakesRepository: SnakeRepository, cc: Messages
       },
       snake => {
         snakesRepository.create(snake.name, snake.nickname, snake.age, snake.price).map { _ =>
-          Redirect(routes.SnakesController.getSnakes()).flashing("success" -> "product.created")
+          Redirect(routes.SnakesController.getSnakes).flashing("success" -> "product.created")
         }
       }
     )
@@ -62,7 +62,7 @@ class SnakesController @Inject()(snakesRepository: SnakeRepository, cc: Messages
       },
       snake => {
         snakesRepository.update(snake.id, Snake(snake.id, snake.name, snake.nickname, snake.age, snake.price)).map { _ =>
-          Redirect(routes.SnakesController.getSnakes()).flashing("success" -> "snake updated")
+          Redirect(routes.SnakesController.getSnakes).flashing("success" -> "snake updated")
         }
       }
     )

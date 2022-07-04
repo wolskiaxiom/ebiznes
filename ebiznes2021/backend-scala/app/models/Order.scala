@@ -7,11 +7,9 @@ case class Order (id: Long,
                   customerEmail: String,
                   customerNick: String,
                   customerAddress1: String,
-                  customerAddress2: String,
                   customerCity: String,
                   customerZipcode: String,
-                  totalPrice:Int,
-                  comments: String
+                  totalPrice:Int
                  )
 
 object Order {

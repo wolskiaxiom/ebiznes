@@ -1,7 +1,7 @@
 package utils.auth
 
 import com.mohiva.play.silhouette.api.{ Authenticator, Authorization }
-import modelsauth.User
+import models.User
 import play.api.mvc.Request
 
 import scala.concurrent.Future
@@ -23,7 +23,10 @@ case class WithProvider[A <: Authenticator](provider: String) extends Authorizat
    * @tparam B The type of the request body.
    * @return True if the user is authorized, false otherwise.
    */
-  override def isAuthorized[B](user: User, authenticator: A)(implicit request: Request[B]): Future[Boolean] = {
+  override def isAuthorized[B](user: User, authenticator: A)(
+    implicit
+    request: Request[B]): Future[Boolean] = {
+
     Future.successful(user.loginInfo.providerID == provider)
   }
 }

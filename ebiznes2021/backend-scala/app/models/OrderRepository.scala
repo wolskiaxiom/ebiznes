@@ -25,22 +25,20 @@ class OrderRepository  @Inject() (dbConfigProvider: DatabaseConfigProvider)(impl
     def totalPrice = column[Int]("totalPrice")
     def comments = column[String]("comments")
 
-    def * = (id, customerEmail, customerNick, customerAddress1, customerAddress2, customerCity, customerZipcode, totalPrice, comments) <> ((Order.apply _).tupled, Order.unapply)
+    def * = (id, customerEmail, customerNick, customerAddress1, customerCity, customerZipcode, totalPrice) <> ((Order.apply _).tupled, Order.unapply)
   }
 
   private val order = TableQuery[OrderTable]
   def create(customerEmail: String,
              customerNick: String,
              customerAddress1: String,
-             customerAddress2: String,
              customerCity: String,
              customerZipcode: String,
-             totalPrice:Int,
-             comments: String): Future[Order] = db.run {
-    (order.map(a => (a.customerEmail, a.customerNick, a.customerAddress1, a.customerAddress2, a.customerCity, a.customerZipcode, a.totalPrice, a.comments))
+             totalPrice:Int): Future[Order] = db.run {
+    (order.map(a => (a.customerEmail, a.customerNick, a.customerAddress1, a.customerCity, a.customerZipcode, a.totalPrice))
       returning order.map(_.id)
-      into {case ((customerEmail, customerNick, customerAddress1, customerAddress2, customerCity, customerZipcode, totalPrice, comments), id) => Order(id, customerEmail, customerNick, customerAddress1, customerAddress2, customerCity, customerZipcode, totalPrice, comments)}
-      ) += (customerEmail, customerNick, customerAddress1, customerAddress2, customerCity, customerZipcode, totalPrice, comments)
+      into {case ((customerEmail, customerNick, customerAddress1, customerCity, customerZipcode, totalPrice), id) => Order(id, customerEmail, customerNick, customerAddress1, customerCity, customerZipcode, totalPrice)}
+      ) += (customerEmail, customerNick, customerAddress1, customerCity, customerZipcode, totalPrice)
   }
 
   def list(): Future[Seq[Order]] = db.run {

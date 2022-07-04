@@ -41,7 +41,7 @@ class CatsController @Inject()(catsRepository: CatRepository, cc: MessagesContro
       },
       cat => {
         catsRepository.create(cat.name, cat.nickname, cat.age, cat.price).map { _ =>
-          Redirect(routes.CatsController.getCats()).flashing("success" -> "product.created")
+          Redirect(routes.CatsController.getCats).flashing("success" -> "product.created")
         }
       }
     )
@@ -62,7 +62,7 @@ class CatsController @Inject()(catsRepository: CatRepository, cc: MessagesContro
       },
       cat => {
         catsRepository.update(cat.id, Cat(cat.id, cat.name, cat.nickname, cat.age, cat.price)).map { _ =>
-          Redirect(routes.CatsController.getCats()).flashing("success" -> "cat updated")
+          Redirect(routes.CatsController.getCats).flashing("success" -> "cat updated")
         }
       }
     )
